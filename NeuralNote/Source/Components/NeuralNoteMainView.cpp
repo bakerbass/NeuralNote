@@ -43,7 +43,8 @@ NeuralNoteMainView::NeuralNoteMainView(NeuralNoteAudioProcessor& processor)
     };
 
     mRecordButton->setToggleState(mProcessor.getState() == Recording, NotificationType::dontSendNotification);
-
+    mRecordButtonAttachment = std::make_unique<AudioProcessorValueTreeState::ButtonAttachment>(
+        mProcessor.getAPVTS(), ParameterHelpers::getIdStr(ParameterHelpers::RecordId), *mRecordButton);
     addAndMakeVisible(*mRecordButton);
 
     mClearButton = std::make_unique<DrawableButton>("ClearButton", DrawableButton::ButtonStyle::ImageRaw);

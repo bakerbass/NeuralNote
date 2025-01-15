@@ -32,6 +32,7 @@ enum ParamIdEnum {
     EnableTimeQuantizationId,
     TimeDivisionId,
     QuantizationForceId,
+    RecordId,
     TotalNumParams
 };
 
@@ -50,7 +51,8 @@ static const StringArray ParamIdStr {"MUTE",
                                      "KEY_SNAP_MODE",
                                      "ENABLE_TIME_QUANTIZATION",
                                      "TIME_DIVISION",
-                                     "QUANTIZATION_FORCE"};
+                                     "QUANTIZATION_FORCE"
+                                     "RECORD"};
 
 inline String toName(ParamIdEnum id)
 {
@@ -87,6 +89,8 @@ inline String toName(ParamIdEnum id)
             return "Time Division";
         case QuantizationForceId:
             return "Quantization Force";
+        case RecordId:
+            return "Record";
         default:
             jassertfalse;
             return "Unknown";
@@ -152,7 +156,8 @@ inline std::unique_ptr<RangedAudioParameter> getRangedAudioParamForID(ParamIdEnu
                 toJuceParameterID(id), toName(id), TimeQuantizeUtils::TimeDivisionsStr, 5);
         case QuantizationForceId:
             return std::make_unique<AudioParameterFloat>(toJuceParameterID(id), toName(id), 0.0f, 1.0f, 0.f);
-
+        case RecordId:
+            return std::make_unique<AudioParameterBool>(toJuceParameterID(id), toName(id), false);
         default:
             jassertfalse;
             return nullptr;

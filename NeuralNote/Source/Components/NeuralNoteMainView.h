@@ -60,6 +60,8 @@ private:
     std::unique_ptr<AudioProcessorValueTreeState::ButtonAttachment> mMuteButtonAttachment;
 
     std::unique_ptr<DrawableButton> mRecordButton;
+    std::unique_ptr<AudioProcessorValueTreeState::ButtonAttachment> mRecordButtonAttachment;
+    
     std::unique_ptr<DrawableButton> mClearButton;
 
     std::unique_ptr<DrawableButton> mBackButton;
