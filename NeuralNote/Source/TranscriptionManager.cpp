@@ -131,6 +131,7 @@ void TranscriptionManager::_runModel()
     mProcessor->getPlayer()->getSynthController()->setNewMidiEventsVectorToUse(single_events);
 
     mProcessor->setStateToPopulatedAudioAndMidiRegions();
+    generateFile();
 }
 
 void TranscriptionManager::_updateTranscription()
@@ -237,4 +238,38 @@ void TranscriptionManager::_repaintPianoRoll()
     }
 
     mShouldRepaintPianoRoll = false;
+}
+
+void TranscriptionManager::generateFile()
+{
+    if (!mTempDirectory.isDirectory()) {
+        auto result = mTempDirectory.createDirectory();
+        if (result.failed()) {
+            NativeMessageBox::showMessageBoxAsync(
+                juce::MessageBoxIconType::NoIcon, "Error", "Temporary directory for midi file failed.");
+        }
+    }
+
+    String filename = mProcessor->getSourceAudioManager()->getDroppedFilename();
+
+    if (filename.isEmpty())
+        filename = "NNTranscription.mid";
+    else
+        filename += "_NNTranscription.mid";
+
+    auto out_file = mTempDirectory.getChildFile(filename);
+
+    double export_bpm = mProcessor->getValueTree().getProperty(NnId::ExportTempoId, 120.0);
+
+    auto success_midi_file_creation = mMidiFileWriter.writeMidiFile(
+        getNoteEventVector(),
+        out_file,
+        getTimeQuantizeOptions().getTimeQuantizeInfo(),
+        export_bpm,
+        static_cast<PitchBendModes>(mProcessor->getParameterValue(ParameterHelpers::PitchBendModeId)));
+
+    if (!success_midi_file_creation) {
+        NativeMessageBox::showMessageBoxAsync(
+            juce::MessageBoxIconType::NoIcon, "Error", "Could not create the midi file.");
+    }
 }
