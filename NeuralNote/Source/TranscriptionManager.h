@@ -9,6 +9,7 @@
 #include "BasicPitch.h"
 #include "NoteOptions.h"
 #include "TimeQuantizeOptions.h"
+#include "MidiFile/MidiFileWriter.h"
 
 class NeuralNoteAudioProcessor;
 class NeuralNoteMainView;
@@ -65,6 +66,11 @@ private:
 
     ThreadPool mThreadPool;
     std::function<void()> mJobLambda;
+
+    juce::File mTempDirectory = juce::File::getSpecialLocation(juce::File::tempDirectory).getChildFile("neuralnote");
+
+    MidiFileWriter mMidiFileWriter;
+    void generateFile();
 };
 
 #endif //TranscriptionManager_h
