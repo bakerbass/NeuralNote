@@ -256,7 +256,16 @@ void TranscriptionManager::generateFile()
         filename = "NNTranscription.mid";
     else
         filename += "_NNTranscription.mid";
-
+    juce::File transcriptionFile = mTempDirectory.getChildFile("NNTranscription.mid");
+if (transcriptionFile.existsAsFile()) {
+    int fileIndex = 1;
+    juce::File newFile;
+    do {
+        newFile = mTempDirectory.getChildFile("NNTranscription_" + juce::String(fileIndex) + ".mid");
+        fileIndex++;
+    } while (newFile.existsAsFile());
+    filename = newFile.getFileName();
+}
     auto out_file = mTempDirectory.getChildFile(filename);
 
     double export_bpm = mProcessor->getValueTree().getProperty(NnId::ExportTempoId, 120.0);
