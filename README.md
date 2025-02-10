@@ -1,3 +1,5 @@
+This fork is created for use in a faux-realtime improvization system.
+
 # NeuralNote <img style="float: right;" src="NeuralNote/Assets/logo.png" width="100" />
 
 NeuralNote is the audio plugin that brings **state-of-the-art Audio to MIDI conversion** into
