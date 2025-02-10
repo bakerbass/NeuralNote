@@ -52,6 +52,7 @@ private:
     State mPrevState = EmptyAudioAndMidiRegions;
 
     VisualizationPanel mVisualizationPanel;
+    VisualizationPanel mVisualizationPanel2;
     TranscriptionOptionsView mTranscriptionOptions;
     NoteOptionsView mNoteOptions;
     TimeQuantizeOptionsView mQuantizePanel;
@@ -61,7 +62,9 @@ private:
 
     std::unique_ptr<DrawableButton> mRecordButton;
     std::unique_ptr<AudioProcessorValueTreeState::ButtonAttachment> mRecordButtonAttachment;
-    
+
+    std::unique_ptr<DrawableButton> mRecordButton2;
+    std::unique_ptr<AudioProcessorValueTreeState::ButtonAttachment> mRecordButtonAttachment2;
     std::unique_ptr<DrawableButton> mClearButton;
 
     std::unique_ptr<DrawableButton> mBackButton;

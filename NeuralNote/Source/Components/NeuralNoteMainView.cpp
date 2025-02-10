@@ -7,6 +7,7 @@
 NeuralNoteMainView::NeuralNoteMainView(NeuralNoteAudioProcessor& processor)
     : mProcessor(processor)
     , mVisualizationPanel(&processor)
+    , mVisualizationPanel2(&processor)
     , mTranscriptionOptions(processor)
     , mNoteOptions(processor)
     , mQuantizePanel(processor)
@@ -59,6 +60,7 @@ NeuralNoteMainView::NeuralNoteMainView(NeuralNoteAudioProcessor& processor)
     mClearButton->onClick = [this]() {
         mProcessor.clear();
         mVisualizationPanel.clear();
+        mVisualizationPanel2.clear();
         updateEnablements();
     };
     addAndMakeVisible(*mClearButton);
@@ -73,6 +75,7 @@ NeuralNoteMainView::NeuralNoteMainView(NeuralNoteAudioProcessor& processor)
         mProcessor.getPlayer()->reset();
         mPlayPauseButton->setToggleState(false, sendNotification);
         mVisualizationPanel.getAudioMidiViewport().setViewPositionProportionately(0, 0);
+        mVisualizationPanel2.getAudioMidiViewport().setViewPositionProportionately(0, 0);
     };
     mBackButton->setTooltip(NeuralNoteTooltips::back);
     addAndMakeVisible(*mBackButton);
@@ -218,6 +221,7 @@ NeuralNoteMainView::NeuralNoteMainView(NeuralNoteAudioProcessor& processor)
     addAndMakeVisible(*mMuteButton);
 
     addAndMakeVisible(mVisualizationPanel);
+    addAndMakeVisible(mVisualizationPanel2);
     addAndMakeVisible(mTranscriptionOptions);
     addAndMakeVisible(mNoteOptions);
     addAndMakeVisible(mQuantizePanel);
@@ -261,7 +265,9 @@ void NeuralNoteMainView::resized()
 
     mMuteButton->setBounds(931, 43, 35, 35);
 
-    mVisualizationPanel.setBounds(328, 120, 642, 491);
+    mVisualizationPanel.setBounds(328, 120, 642 / 2, 491);
+    mVisualizationPanel2.setBounds(643, 120, 642 / 2, 491);
+
     mTranscriptionOptions.setBounds(29, 120, 274, 190);
     mNoteOptions.setBounds(29, 334, 274, 133);
     mQuantizePanel.setBounds(29, 491, 274, 120);
@@ -295,6 +301,7 @@ void NeuralNoteMainView::timerCallback()
 void NeuralNoteMainView::repaintPianoRoll()
 {
     mVisualizationPanel.repaintPianoRoll();
+    mVisualizationPanel2.repaintPianoRoll();
 }
 
 bool NeuralNoteMainView::keyPressed(const KeyPress& key)
@@ -362,6 +369,7 @@ void NeuralNoteMainView::updateEnablements()
         mBackButton->setEnabled(true);
         mCenterButton->setEnabled(true);
         mVisualizationPanel.setMidiFileDragComponentVisible();
+        mVisualizationPanel2.setMidiFileDragComponentVisible();
     }
 
     repaint();
@@ -373,6 +381,7 @@ void NeuralNoteMainView::valueTreePropertyChanged(ValueTree& treeWhosePropertyHa
         bool should_center = treeWhosePropertyHasChanged.getProperty(property);
         mCenterButton->setToggleState(should_center, sendNotification);
         mVisualizationPanel.getCombinedAudioMidiRegion().setCenterView(should_center);
+        mVisualizationPanel2.getCombinedAudioMidiRegion().setCenterView(should_center);
     }
 
     if (property == NnId::TooltipVisibleId) {

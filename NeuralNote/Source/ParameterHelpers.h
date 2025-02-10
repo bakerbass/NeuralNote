@@ -33,6 +33,7 @@ enum ParamIdEnum {
     TimeDivisionId,
     QuantizationForceId,
     RecordId,
+    RecordId2,
     TotalNumParams
 };
 
@@ -51,8 +52,9 @@ static const StringArray ParamIdStr {"MUTE",
                                      "KEY_SNAP_MODE",
                                      "ENABLE_TIME_QUANTIZATION",
                                      "TIME_DIVISION",
-                                     "QUANTIZATION_FORCE"
-                                     "RECORD"};
+                                     "QUANTIZATION_FORCE",
+                                     "RECORD",
+                                     "RECORD2"};
 
 inline String toName(ParamIdEnum id)
 {
@@ -91,6 +93,8 @@ inline String toName(ParamIdEnum id)
             return "Quantization Force";
         case RecordId:
             return "Record";
+        case RecordId2:
+            return "Record2";
         default:
             jassertfalse;
             return "Unknown";
