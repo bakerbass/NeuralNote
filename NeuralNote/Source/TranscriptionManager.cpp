@@ -11,6 +11,8 @@ TranscriptionManager::TranscriptionManager(NeuralNoteAudioProcessor* inProcessor
     , mTimeQuantizeOptions(inProcessor)
     , mThreadPool(1)
 {
+
+
     mJobLambda = [this] { _runModel(); };
 
     auto& apvts = mProcessor->getAPVTS();
@@ -251,14 +253,22 @@ void TranscriptionManager::generateFile()
     }
 
     String filename = mProcessor->getSourceAudioManager()->getDroppedFilename();
-
+    String baseFilename;
     if (filename.isEmpty())
-        filename = "NNTranscription.mid";
+        baseFilename = "NNTranscription";
     else
-        filename += "_NNTranscription.mid";
+        baseFilename = filename + "_NNTranscription";
 
-    auto out_file = mTempDirectory.getChildFile(filename);
+    baseFilename += "_" + String(mProcessor->getParameterValue(ParameterHelpers::InstanceId));
 
+    String filenameToUse = baseFilename + ".mid";
+    auto out_file = mTempDirectory.getChildFile(filenameToUse);
+    int fileIndex = 1;
+    while (out_file.exists())
+    {
+        filenameToUse = baseFilename + "_" + String(fileIndex++) + ".mid";
+        out_file = mTempDirectory.getChildFile(filenameToUse);
+    }
     double export_bpm = mProcessor->getValueTree().getProperty(NnId::ExportTempoId, 120.0);
 
     auto success_midi_file_creation = mMidiFileWriter.writeMidiFile(

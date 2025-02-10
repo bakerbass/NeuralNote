@@ -56,6 +56,8 @@ private:
     NoteOptionsView mNoteOptions;
     TimeQuantizeOptionsView mQuantizePanel;
 
+    std::unique_ptr<Slider> mInstanceSlider;
+
     std::unique_ptr<DrawableButton> mMuteButton;
     std::unique_ptr<AudioProcessorValueTreeState::ButtonAttachment> mMuteButtonAttachment;
 

@@ -14,6 +14,13 @@ NeuralNoteMainView::NeuralNoteMainView(NeuralNoteAudioProcessor& processor)
     mProcessor.addListenerToStateValueTree(this);
     jassert(mProcessor.getValueTree().hasProperty(NnId::PlayheadCenteredId));
 
+    mInstanceSlider = std::make_unique<Slider>("InstanceSlider");
+    mInstanceSlider->setSliderStyle(Slider::SliderStyle::LinearHorizontal);
+    mInstanceSlider->setRange(0, 2, 1);
+    mInstanceSlider->setTextBoxStyle(Slider::TextEntryBoxPosition::TextBoxBelow, false, 75, 30);
+    mInstanceSlider->setTextValueSuffix(" Instance #");
+    addAndMakeVisible(*mInstanceSlider);
+
     mRecordButton = std::make_unique<DrawableButton>("RecordButton", DrawableButton::ButtonStyle::ImageRaw);
     mRecordButton->setClickingTogglesState(true);
     mRecordButton->setColour(DrawableButton::ColourIds::backgroundColourId, Colours::transparentBlack);
@@ -263,6 +270,8 @@ void NeuralNoteMainView::resized()
 
     mVisualizationPanel.setBounds(328, 120, 642, 491);
     mTranscriptionOptions.setBounds(29, 120, 274, 190);
+    mInstanceSlider->setBounds(29, 20, 274, 50);
+
     mNoteOptions.setBounds(29, 334, 274, 133);
     mQuantizePanel.setBounds(29, 491, 274, 120);
 
