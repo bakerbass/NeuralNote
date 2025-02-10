@@ -22,6 +22,11 @@ class TranscriptionManager
 public:
     explicit TranscriptionManager(NeuralNoteAudioProcessor* inProcessor);
 
+    ~TranscriptionManager() {
+        if (mTempDirectory.isDirectory()) {
+            mTempDirectory.deleteRecursively();
+        }
+    }
     void timerCallback() override;
 
     void prepareToPlay(double inSampleRate);

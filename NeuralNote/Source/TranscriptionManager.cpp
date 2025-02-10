@@ -260,6 +260,7 @@ void TranscriptionManager::generateFile()
         baseFilename = filename + "_NNTranscription";
 
     baseFilename += "_" + String(mProcessor->getParameterValue(ParameterHelpers::InstanceId));
+    auto out_file = mTempDirectory.getChildFile(filename);
 
     String filenameToUse = baseFilename + ".mid";
     auto out_file = mTempDirectory.getChildFile(filenameToUse);
