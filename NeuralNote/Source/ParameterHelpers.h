@@ -52,8 +52,8 @@ static const StringArray ParamIdStr {"MUTE",
                                      "KEY_SNAP_MODE",
                                      "ENABLE_TIME_QUANTIZATION",
                                      "TIME_DIVISION",
-                                     "QUANTIZATION_FORCE"
-                                     "RECORD"
+                                     "QUANTIZATION_FORCE",
+                                     "RECORD",
                                      "INSTANCE"};
 
 inline String toName(ParamIdEnum id)

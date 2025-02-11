@@ -32,7 +32,9 @@ TranscriptionManager::TranscriptionManager(NeuralNoteAudioProcessor* inProcessor
     apvts.addParameterListener(ParameterHelpers::getIdStr(ParameterHelpers::EnableTimeQuantizationId), this);
     apvts.addParameterListener(ParameterHelpers::getIdStr(ParameterHelpers::TimeDivisionId), this);
     apvts.addParameterListener(ParameterHelpers::getIdStr(ParameterHelpers::QuantizationForceId), this);
+    apvts.addParameterListener(ParameterHelpers::getIdStr(ParameterHelpers::RecordId), this);
 
+    apvts.addParameterListener(ParameterHelpers::getIdStr(ParameterHelpers::InstanceId), this);
     startTimerHz(30);
 }
 
@@ -260,7 +262,6 @@ void TranscriptionManager::generateFile()
         baseFilename = filename + "_NNTranscription";
 
     baseFilename += "_" + String(mProcessor->getParameterValue(ParameterHelpers::InstanceId));
-    auto out_file = mTempDirectory.getChildFile(filename);
 
     String filenameToUse = baseFilename + ".mid";
     auto out_file = mTempDirectory.getChildFile(filenameToUse);
